@@ -1,4 +1,4 @@
-cclass HangpersonGame
+class HangpersonGame
 
   attr_accessor :word,:guesses,:wrong_guesses
   # add the necessary class methods, attributes, etc. here
