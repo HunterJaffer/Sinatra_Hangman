@@ -7,64 +7,56 @@ class HangpersonGame
 
   # def initialize()
   # end
-  
-  attr_accessor :word
-  attr_accessor :guesses
-  attr_accessor :wrong_guesses
-  
+  attr_accessor :word,:guesses,:wrong_guesses
+
+
   def initialize(word)
     @word = word
-    @guesses = ''
-    @wrong_guesses = ''
+    @guesses = ""
+    @wrong_guesses = ""
   end
-  
+
+
   def guess(str1)
-    raise ArgumentError if str1 == nil
-    if str1 == ''
-      raise ArgumentError.new("No blank spaces")
+    if str1 == "" || str1 =~/[^a-zA-Z]/ || str1 == nil
+      raise ArgumentError.new("Empty string not accepted")
     end
-    str1 = str1[/[a-zA-Z]+/]
-    raise ArgumentError.new("Only letters") if str1 == nil
     str1 = str1.downcase
-    if(@word.include? str1)
-      if !@guesses.include? str1    
-        @guesses += str1
-      else
+    if word.include? str1
+      if @guesses.include? str1
         return false
+      else
+        @guesses << str1
+        return true
       end
     else
-      if !@wrong_guesses.include? str1
-        @wrong_guesses += str1 
-      else
+      if @wrong_guesses.include? str1
         return false
+      else
+        @wrong_guesses << str1
+        return true
       end
     end
   end
-  
-  def word_with_guesses()
-    random_word = ""
-    0.upto(@word.size - 1) do |x|
-        random_word += "-"
+
+  def word_with_guesses
+    if @guesses.empty? and @wrong_guesses.empty?
+      word = '-'
+      1.upto(@word.length) {word<<'-'}
+      return word
     end
-    @guesses.chars do |char|
-      0.upto(@word.size - 1) do |x|
-        if @word[x] == char
-        	random_word[x] = char
-        end
-      end
-    end
-    return random_word
+    return @word.gsub(/[^#{@wrong_guesses}]/,'-') if @guesses.empty?
+    @word.gsub(/[^#{@guesses}]/,'-')
   end
-  
-  def check_win_or_lose()
-    if word_with_guesses() != @word && guesses.size() + wrong_guesses.size() >= 7
+
+  def check_win_or_lose
+    if wrong_guesses.size() >= 7
       return :lose
-    elsif word_with_guesses() == @word
+    elsif word_with_guesses == @word
       return :win
     else
       return :play
     end
-    
   end
 
   def self.get_random_word

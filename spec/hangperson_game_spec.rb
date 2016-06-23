@@ -19,7 +19,7 @@ describe HangpersonGame do
     end
   end
 
-  describe 'guessing'do
+  describe 'guessing' do
     context 'correctly' do
       before :each do
         @game = HangpersonGame.new('garply')
@@ -42,7 +42,7 @@ describe HangpersonGame do
         expect(@game.guesses).to eq('')
         expect(@game.wrong_guesses).to eq('z')
       end
-      it 'returns true' do
+      it 'returns true'  do
         expect(@valid).not_to be false
       end
     end
@@ -51,7 +51,7 @@ describe HangpersonGame do
         @game = HangpersonGame.new('garply')
         guess_several_letters(@game, 'aq')
       end
-      it 'does not change correct guess list'do
+      it 'does not change correct guess list' do
         @game.guess('a')
         expect(@game.guesses).to eq('a')
       end
@@ -59,7 +59,7 @@ describe HangpersonGame do
         @game.guess('q')
         expect(@game.wrong_guesses).to eq('q')
       end
-      it 'returns false'do
+      it 'returns false' do
         expect(@game.guess('a')).to be false
         expect(@game.guess('q')).to be false
       end
@@ -80,7 +80,7 @@ describe HangpersonGame do
       it 'throws an error when not a letter' do
         expect { @game.guess('%') }.to raise_error(ArgumentError)
       end
-      it 'throws an error when nil' do
+      it 'throws an error when nil'  do
         expect { @game.guess(nil) }.to raise_error(ArgumentError)
       end
     end
